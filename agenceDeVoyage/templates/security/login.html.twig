@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+ {% block stylesheets %}
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/app.css') }}">
+ {% endblock %}
+
+{% block body %}
+    <div class="container center">
+        <h1><img src="{{ asset('build/images/van.png') }}" alt="Logo" width="150" height="150"><br/>Tunisia Trip</h1>
+        <form method="post" class="row">
+            {% if error %}
+                <div class="col s12 m6 l6 offset-m3 offset-l3">
+                    <span class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                </div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="col s12 m6 l6 offset-m3 offset-l3">
+                    Tu es actuellement connect&#xE9; en tant que {{ app.user.username }}, <a
+                            href="{{ path('app_logout') }}">D&#xE9;connecte-toi</a>
+                </div>
+            {% endif %}
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <input type="text" value="{{ last_username }}" name="login" id="inputLogin" class="form-control"
+                       autocomplete="username" required autofocus>
+            </div>
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <input type="password" name="password" id="inputPassword" class="form-control" required
+                       placeholder="Mot de passe">
+            </div>
+
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+
+            {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
+
+
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+            #}
+
+            <div class="input-field col s12">
+                <input type="submit" class="btn btn-primary" value="Se connecter">
+            </div>
+        </form>
+    </div>
+    {% block scripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <script type="text/javascript">
+            $('select').formSelect();
+        </script>
+    {% endblock %}
+{% endblock %}

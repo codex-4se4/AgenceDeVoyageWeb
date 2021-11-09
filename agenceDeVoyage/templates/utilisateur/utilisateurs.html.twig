@@ -1,0 +1,54 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin. | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="table_section padding_infor_info">
+        <div class="table-responsive-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>Email</th>
+                    <th>CIN</th>
+                    <th>Passeport</th>
+                    <th>Login</th>
+                    <th>Photo</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set i = 1 %}
+                {% for utilisateur in utilisateurs %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ utilisateur.nom }}</td>
+                        <td>{{ utilisateur.prenom }}</td>
+                        <td>{{ utilisateur.email }}</td>
+                        <td>{{ utilisateur.cin }}</td>
+                        <td>{{ utilisateur.passeport }}</td>
+                        <td>{{ utilisateur.login }}</td>
+                        <td>{{ utilisateur.photo }}</td>
+                        <td>{{ utilisateur.role }}</td>
+                        <td>
+                            <a href="{{ path('modifier_utilisateur', {'id': utilisateur.id}) }}"><i
+                                        class="fa fa-pencil blue2_color"></i></a>
+                            <i href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}"><i
+                                        class="fa fa-trash red_color"/></i></a>
+                        </td>
+                    </tr>
+                    {% set i = i+1 %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+

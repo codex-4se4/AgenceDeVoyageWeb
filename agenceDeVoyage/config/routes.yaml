@@ -1,0 +1,33 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+
+homepage:
+  path: /
+  controller: App\Controller\UtilisateurController::index
+
+ajouter_utilisateur:
+  path: /ajouter-utilisateur
+  controller: App\Controller\UtilisateurController::ajouterUtilisateur
+
+
+modifier_utilisateur:
+  path: /modifier-utilisateur/{id}
+  controller: App\Controller\UtilisateurController::modifierUtilisateur
+  requirements:
+    id: '\d+'
+
+supprimer_utilisateur:
+  path: /supprimer-utilisateur/{id}
+  controller: App\Controller\UtilisateurController::supprimerUtilisateur
+  requirements:
+    id: '\d+'
+
+admin:
+  path: /admin
+  controller: App\Controller\UtilisateurController::utilisateurs
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
