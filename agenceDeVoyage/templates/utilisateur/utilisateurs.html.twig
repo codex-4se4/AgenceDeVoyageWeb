@@ -37,8 +37,8 @@
                         <td>
                             <a href="{{ path('modifier_utilisateur', {'id': utilisateur.id}) }}"><i
                                         class="fa fa-pencil blue2_color"></i></a>
-                            <i href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}"><i
-                                        class="fa fa-trash red_color"/></i></a>
+                            <a href="{{ path('supprimer_utilisateur', {'id': utilisateur.id}) }}">
+                                <i class="fa fa-trash red_color"></i></a>
                         </td>
                     </tr>
                     {% set i = i+1 %}

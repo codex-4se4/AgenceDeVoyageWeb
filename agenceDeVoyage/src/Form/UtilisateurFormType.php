@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -24,7 +25,13 @@ class UtilisateurFormType extends AbstractType
             ->add('cin')
             ->add('passeport')
             ->add('login')
-            ->add('mdp', PasswordType::class)
+            ->add('mdp', RepeatedType::class, array(
+                'type'              => PasswordType::class,
+                'mapped'            => false,
+                'first_options'     => array('label' => 'New password'),
+                'second_options'    => array('label' => 'Confirm new password'),
+                'invalid_message' => 'The password fields must match.',
+            ))
             ->add('photo')
             ->add('role')
             ->add('submit', SubmitType::class);

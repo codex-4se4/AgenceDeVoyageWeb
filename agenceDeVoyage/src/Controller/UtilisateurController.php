@@ -70,6 +70,7 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            return $this->redirectToRoute("dashboard_admin");
         }
 
         return $this->render("utilisateur/utilisateur-form.html.twig", [
@@ -89,7 +90,7 @@ class UtilisateurController extends AbstractController
         $entityManager->remove($utilisateur);
         $entityManager->flush();
 
-        return $this->redirectToRoute("utilisateurs");
+        return $this->redirectToRoute("dashboard_admin");
     }
 
     /**
