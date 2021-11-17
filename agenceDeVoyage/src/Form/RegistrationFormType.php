@@ -43,8 +43,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('imageFile',VichImageType::class)
-            ->add('role');
+            ->add('imageFile', VichImageType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

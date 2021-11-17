@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Role;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Form\UtilisateurFormType;
@@ -43,6 +44,10 @@ class RegistrationController extends AbstractController
                     $form->get('mdp')->getData()
                 )
             );
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $role = $entityManager->getRepository(Role::class)->find(2);
+            $user->setRole($role);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);

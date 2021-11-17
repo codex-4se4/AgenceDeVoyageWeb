@@ -29,7 +29,7 @@ class UtilisateurController extends AbstractController
         $utilisateurs = $this->getDoctrine()->getRepository(Utilisateur::class)->findAll();
         $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render('dashboardAdmin.html.twig', [
-            "utilisateurs" => $utilisateurs,"current_user" => $currentUser
+            "utilisateurs" => $utilisateurs, "current_user" => $currentUser
         ]);
     }
 
@@ -39,9 +39,9 @@ class UtilisateurController extends AbstractController
     public function dashboardUser()
     {
         $utilisateurs = $this->getDoctrine()->getRepository(Utilisateur::class)->findAll();
-
+        $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render('dashboardUser.html.twig', [
-            "utilisateurs" => $utilisateurs,
+            "utilisateurs" => $utilisateurs, "current_user" => $currentUser
         ]);
     }
 
