@@ -74,7 +74,7 @@
                         </li>
                         <li><a href="tables.html"><i class="fa fa-car purple_color2"></i> <span>Voitures</span></a></li>
                         <li>
-                            <a href="{{ path('dashboard_admin')}}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
+                            <a href="{{ path('dashboard_admin') }}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
                         </li>
                         <li><a href="price.html"><i class="fa fa-briefcase red_color"></i> <span>Partenariats</span></a>
                         </li>
@@ -122,7 +122,11 @@
                                 </div>
                             </div>
                         </div>
-                        {{ form(form_circuit) }}
+                        {{ form_start(form_circuit,{'attr':{'novalidate': 'novalidate'}}) }}
+                        {{ form_row(form_circuit.titre) }}
+                        {{ form_row(form_circuit.description) }}
+                        {{ form_row(form_circuit.prix) }}
+                        {{ form_end(form_circuit) }}
 
                     </div>
                 </div>
