@@ -24,6 +24,7 @@
                 <tbody>
                 {% set i = 1 %}
                 {% for utilisateur in utilisateurs %}
+                    {% set imgPath = imagepath ~ utilisateur.photo %}
                     <tr>
                         <td>{{ i }}</td>
                         <td>{{ utilisateur.nom }}</td>
@@ -32,7 +33,7 @@
                         <td>{{ utilisateur.cin }}</td>
                         <td>{{ utilisateur.passeport }}</td>
                         <td>{{ utilisateur.login }}</td>
-                        <td>{{ utilisateur.photo }}</td>
+                        <td><img width="25px" height="25px" src="{{ asset(imgPath) }}" /></td>
                         <td>{{ utilisateur.role }}</td>
                         <td>
                             <a href="{{ path('modifier_utilisateur', {'id': utilisateur.id}) }}"><i

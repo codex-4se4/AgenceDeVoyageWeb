@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UtilisateurFormType extends AbstractType
 {
@@ -26,13 +27,15 @@ class UtilisateurFormType extends AbstractType
             ->add('passeport')
             ->add('login')
             ->add('mdp', RepeatedType::class, array(
-                'type'              => PasswordType::class,
-                'mapped'            => false,
-                'first_options'     => array('label' => 'New password'),
-                'second_options'    => array('label' => 'Confirm new password'),
+                'type' => PasswordType::class,
+                'mapped' => false,
+                'first_options' => array('label' => 'New password'),
+                'second_options' => array('label' => 'Confirm new password'),
                 'invalid_message' => 'The password fields must match.',
             ))
-            ->add('photo')
+            ->add('imageFile',VichImageType::class,[
+
+            ])
             ->add('role')
             ->add('submit', SubmitType::class);
     }

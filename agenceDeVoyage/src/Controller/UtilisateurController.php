@@ -72,10 +72,11 @@ class UtilisateurController extends AbstractController
             $entityManager->flush();
             return $this->redirectToRoute("dashboard_admin");
         }
-
+        $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render("utilisateur/utilisateur-form.html.twig", [
             "form_title" => "Modifier un utilisateur",
             "form_utilisateur" => $form->createView(),
+            "current_user" => $currentUser
         ]);
     }
 

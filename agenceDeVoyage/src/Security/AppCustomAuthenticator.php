@@ -94,6 +94,10 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+        if ($token->getUser()->isVerified()!=1) {
+            return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        }
+
         if ($token->getUser()->getRoles()[0] == "admin") {
             return new RedirectResponse($this->urlGenerator->generate('dashboard_admin'));
         }
