@@ -48,7 +48,8 @@
                     <div class="sidebar_user_info">
                         <div class="icon_setting"></div>
                         <div class="user_profle_side">
-                            <div class="user_img"><img class="img-responsive" src="{{ asset('build/images/layout_img/user_img.jpg') }}" alt="#" /></div>
+                            {% set imgPath = imagepath ~ current_user.photo %}
+                            <div class="user_img"><img class="img-responsive" src="{{ asset(imgPath) }}" alt="#" /></div>
                             <div class="user_info">
                                 <h6>{{ current_user.prenom }} {{ current_user.nom }}</h6>
                                 <p><span class="online_animation"></span> Online</p>
@@ -78,7 +79,7 @@
                                 <div class="icon_info">
                                     <ul class="user_profile_dd">
                                         <li>
-                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset('build/images/layout_img/user_img.jpg') }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset(imgPath) }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="profile.html">My Profile</a>
                                                 <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span> <i class="fa fa-sign-out"></i></a>
