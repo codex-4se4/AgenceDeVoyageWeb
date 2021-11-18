@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UtilisateurController!{% endblock %}
+{% block title %}Hello CircuitController!{% endblock %}
 
 {% block body %}
     <html lang="en">
@@ -16,28 +16,25 @@
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
-        <!-- site icon -->
         {% block stylesheets %}
-
-            <link rel="icon" href="{{ asset('build/images/fevicon.png') }}" type="image/png" />
+            <link rel="icon" href="{{ asset('build/images/fevicon.png') }}" type="image/png"/>
             <!-- bootstrap css -->
-            <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"/>
             <!-- site css -->
-            <link rel="stylesheet" href="{{ asset('build/css/style.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/style.css') }}"/>
 
-            <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}"/>
             <!-- responsive css -->
-            <link rel="stylesheet" href="{{ asset('build/css/responsive.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/responsive.css') }}"/>
             <!-- color css -->
-            <link rel="stylesheet" href="{{ asset('build/css/colors.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/colors.css') }}"/>
             <!-- select bootstrap -->
-            <link rel="stylesheet" href="{{ asset('build/css/bootstrap-select.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/bootstrap-select.css') }}"/>
             <!-- scrollbar css -->
-            <link rel="stylesheet" href="{{ asset('build/css/perfect-scrollbar.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/perfect-scrollbar.css') }}"/>
             <!-- custom css -->
-            <link rel="stylesheet" href="{{ asset('build/css/custom.css') }}" />
+            <link rel="stylesheet" href="{{ asset('build/css/custom.css') }}"/>
         {% endblock %}
-
     </head>
     <body class="dashboard dashboard_1">
     <div class="full_container">
@@ -48,8 +45,9 @@
                     <div class="sidebar_user_info">
                         <div class="icon_setting"></div>
                         <div class="user_profle_side">
-                            {% set imgPath = imagepath ~ current_user.photo %}
-                            <div class="user_img"><img class="img-responsive" src="{{ asset(imgPath) }}" alt="#" /></div>
+                            <div class="user_img"><img class="img-responsive"
+                                                       src="{{ asset('build/images/layout_img/user_img.jpg') }}"
+                                                       alt="#"/></div>
                             <div class="user_info">
                                 <h6>{{ current_user.prenom }} {{ current_user.nom }}</h6>
                                 <p><span class="online_animation"></span> Online</p>
@@ -61,9 +59,24 @@
                     <h4>General</h4>
                     <ul class="list-unstyled components">
                         <li class="active">
-                            <a href="{{ path('app_login') }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
+                            <a href="{{ path('app_login') }}"><i class="fa fa-user yellow_color"></i>
+                                <span>Profil</span></a>
                         </li>
-                        <li><a href="widgets.html"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
+                        <li><a href="widgets.html"><i class="fa fa-clock-o orange_color"></i>
+                                <span>Réservation</span></a></li>
+                        <li>
+                            <a href="#element"><i class="fa fa-home purple_color"></i> <span>Hébergement</span></a>
+                        </li>
+                        <li>
+                            <a href="price.html"><i class="fa fa-plane green_color"></i>
+                                <span>Circuits touristiques</span></a>
+                        </li>
+                        <li><a href="tables.html"><i class="fa fa-car purple_color2"></i> <span>Voitures</span></a></li>
+                        <li>
+                            <a href="{{ path('dashboard_admin') }}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
+                        </li>
+                        <li><a href="price.html"><i class="fa fa-briefcase red_color"></i> <span>Partenariats</span></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -74,15 +87,21 @@
                 <div class="topbar">
                     <nav class="navbar navbar-expand-lg navbar-light">
                         <div class="full">
-                            <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i></button>
+                            <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i>
+                            </button>
                             <div class="right_topbar">
                                 <div class="icon_info">
                                     <ul class="user_profile_dd">
                                         <li>
-                                            <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset(imgPath) }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><img
+                                                        class="img-responsive rounded-circle"
+                                                        src="{{ asset('build/images/layout_img/user_img.jpg') }}"
+                                                        alt="#"/><span
+                                                        class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="profile.html">My Profile</a>
-                                                <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span> <i class="fa fa-sign-out"></i></a>
+                                                <a class="dropdown-item" href="#"><span>Log Out</span> <i
+                                                            class="fa fa-sign-out"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -93,7 +112,23 @@
                 </div>
                 <!-- end topbar -->
                 <!-- dashboard inner -->
-                <!-- end dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title">
+                                    <h2>Circuit</h2>
+                                </div>
+                            </div>
+                        </div>
+                        {{ form_start(form_circuit,{'attr':{'novalidate': 'novalidate'}}) }}
+                        {{ form_row(form_circuit.titre) }}
+                        {{ form_row(form_circuit.description) }}
+                        {{ form_row(form_circuit.prix) }}
+                        {{ form_end(form_circuit) }}
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -127,7 +162,6 @@
       <script src="{{ asset('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') }}"></script>
       <![endif]-->
     {% endblock %}
-
     </body>
     </html>
 {% endblock %}

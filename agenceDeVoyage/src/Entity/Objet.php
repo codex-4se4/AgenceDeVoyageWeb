@@ -2,23 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\RoleRepository;
+use App\Repository\ObjetRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=RoleRepository::class)
+ * @ORM\Entity(repositoryClass=ObjetRepository::class)
  */
-class Role
+class Objet
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer",options={"default"=2})
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=255)
      */
     private $nom;
 
@@ -37,10 +37,5 @@ class Role
         $this->nom = $nom;
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return (string)$this->getNom();
     }
 }

@@ -29,7 +29,7 @@ class UtilisateurController extends AbstractController
         $utilisateurs = $this->getDoctrine()->getRepository(Utilisateur::class)->findAll();
         $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render('dashboardAdmin.html.twig', [
-            "utilisateurs" => $utilisateurs,"current_user" => $currentUser
+            "utilisateurs" => $utilisateurs, "current_user" => $currentUser
         ]);
     }
 
@@ -39,9 +39,9 @@ class UtilisateurController extends AbstractController
     public function dashboardUser()
     {
         $utilisateurs = $this->getDoctrine()->getRepository(Utilisateur::class)->findAll();
-
+        $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render('dashboardUser.html.twig', [
-            "utilisateurs" => $utilisateurs,
+            "utilisateurs" => $utilisateurs, "current_user" => $currentUser
         ]);
     }
 
@@ -70,11 +70,13 @@ class UtilisateurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            return $this->redirectToRoute("dashboard_admin");
         }
-
+        $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
         return $this->render("utilisateur/utilisateur-form.html.twig", [
             "form_title" => "Modifier un utilisateur",
             "form_utilisateur" => $form->createView(),
+            "current_user" => $currentUser
         ]);
     }
 
@@ -89,7 +91,7 @@ class UtilisateurController extends AbstractController
         $entityManager->remove($utilisateur);
         $entityManager->flush();
 
-        return $this->redirectToRoute("utilisateurs");
+        return $this->redirectToRoute("dashboard_admin");
     }
 
     /**
