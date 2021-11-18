@@ -22,20 +22,12 @@ class UtilisateurFormType extends AbstractType
         $builder
             ->add('nom', TextType::class)
             ->add('prenom', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('cin')
-            ->add('passeport')
-            ->add('login')
-            ->add('mdp', RepeatedType::class, array(
-                'type' => PasswordType::class,
-                'mapped' => false,
-                'first_options' => array('label' => 'New password'),
-                'second_options' => array('label' => 'Confirm new password'),
-                'invalid_message' => 'The password fields must match.',
-            ))
-            ->add('imageFile',VichImageType::class,[
-
-            ])
+            ->add('email', TextType::class)
+            ->add('cin',TextType::class)
+            ->add('passeport',TextType::class)
+            ->add('login',TextType::class)
+            ->add('mdp', PasswordType::class)
+            ->add('imageFile',VichImageType::class)
             ->add('role')
             ->add('submit', SubmitType::class);
     }

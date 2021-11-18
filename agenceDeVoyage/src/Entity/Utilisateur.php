@@ -25,37 +25,89 @@ class Utilisateur implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre nom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le nom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre prénom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le prénom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le prénom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre email.")
+     * @Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=8)
+     * @Assert\NotBlank(message="Veuillez saisir votre cin.")
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      exactMessage = "Le cin doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $cin;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @Assert\NotBlank(message="Veuillez saisir votre passeport.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 6,
+     *      exactMessage = "Le passeport doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $passeport;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre login.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 180,
+     *      minMessage = "Le login doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le login doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $login;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank(message="Veuillez saisir votre mot de passe.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 200,
+     *      minMessage = "Le mot de passe doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le mot de passe doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $mdp;
 

@@ -21,11 +21,11 @@ class Circuit
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Veuillez saisir une description.")
-     *@Assert\Length(
+     * @Assert\Length(
      *      min = 20,
      *      max = 255,
      *      minMessage = "La description doit contenir au minimum {{ limit }} caractères.",
-     *      maxMessage = "La description doit contenir au maximu {{ limit }} caractères."
+     *      maxMessage = "La description doit contenir au maximum {{ limit }} caractères."
      * )
      */
     private $description;
@@ -37,7 +37,7 @@ class Circuit
      *      min = 10,
      *      max = 80,
      *      minMessage = "Le titre doit contenir au minimum {{ limit }} caractères.",
-     *      maxMessage = "Le titre doit contenir au maximu {{ limit }} caractères."
+     *      maxMessage = "Le titre doit contenir au maximum {{ limit }} caractères."
      * )
      */
     private $titre;

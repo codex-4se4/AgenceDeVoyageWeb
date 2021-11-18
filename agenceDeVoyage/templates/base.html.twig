@@ -10,20 +10,6 @@
     {% endblock %}
 
     {% block javascripts %}
-        <script type="application/javascript">
-            $('.custom-file-input').on('change', function(event) {
-                var inputFile = event.currentTarget;
-                if(inputFile.files.length===0){
-                    $(inputFile).parent()
-                        .find('.custom-file-label')
-                        .html("Select one image");
-                }else {
-                    $(inputFile).parent()
-                        .find('.custom-file-label')
-                        .html(inputFile.files[0].name);
-                }
-            });
-        </script>
     {% endblock %}
 </head>
 <body>
