@@ -84,9 +84,9 @@ class Reservation
 
     public function addutilisateur(Utilisateur $utilisateur): self
     {
-        if (!$this->utilisateur->contains($client)) {
-            $this->utilisateur[] = $client;
-            $client->setReservation($this);
+        if (!$this->utilisateur->contains($utilisateur)) {
+            $this->utilisateur[] = $utilisateur;
+            $utilisateur->setReservation($this);
         }
 
         return $this;
