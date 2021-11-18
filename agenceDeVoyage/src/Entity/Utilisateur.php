@@ -134,6 +134,11 @@ class Utilisateur implements UserInterface, \Serializable
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="Client")
+     */
+    private $reservation;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -338,5 +343,17 @@ class Utilisateur implements UserInterface, \Serializable
             $this->login,
             $this->mdp,
             ) = unserialize($serialized);
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
     }
 }
