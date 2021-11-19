@@ -1,106 +1,77 @@
+
+
 <?php
 
 namespace App\Controller;
 
 use App\Entity\Reservation;
-use App\Form\ResevationFormType;
+use App\Repository\ReservationRepositoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use App\Form\VehiculeType;
 
-class ReservationController extends AbstractController
+
+
+class ReservationControllerController extends AbstractController
 {
     /**
      * @Route("/reservation", name="reservation")
      */
-    public function index(): Response
+    public function index(ReservationRepository $calendar): Response
     {
+        $resevations = $calendar->findAll();
+
+
         return $this->render('reservation/index.html.twig', [
-            'controller_name' => 'ReservationController',
+            'reservation' => $resevations,
         ]);
     }
 
     /**
-     * @Route("/dashboardAdmin", name="dashboard_admin")
+     * @Route("/addreservation", name="addreservation")
      */
-    public function dashboardAdmin()
+    public function addreservation(Request $request): Response
     {
-        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
-        $currentRes= $this->getDoctrine()->getRepository(Reservation::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
-        return $this->render('dashboardAdmin.html.twig', [
-            "reservation" => $reservation,"current_user" => $currentRes
-        ]);
-    }
+        $reservation = new reservation();
+        $form = $this->createForm(reservationType::class,$reservation);
 
-    /**
-     * @Route("/dashboardUser", name="dashboard_user")
-     */
-    public function dashboardRes()
-    {
-        $resevations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
-
-        return $this->render('dashboardRes.html.twig', [
-            "reservations" => $resevations,
-        ]);
-    }
-
-    /**
-     * @Route("/utilisateur/{id}", name="utilisateur")
-     */
-    public function reservation(int $id): Response
-    {
-        $reservation = $this->getDoctrine()->getRepository(Reservation::class)->find($id);
-
-        return $this->render("reservation/reservation.html.twig", [
-            "reservation" => $reservation,
-        ]);
-    }
-
-    /**
-     * @Route("/modifier-reservation/{id}", name="modifier_reservation")
-     */
-    public function modifierreservation(Request $request, int $id): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-
-        $reservation = $entityManager->getRepository(Reservation::class)->find($id);
-        $form = $this->createForm(ResevationFormType::class, $reservation);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+            return $this->redirectToRoute('reservation');
         }
 
-        return $this->render("reservation/reservation-form.html.twig", [
-            "form_title" => "Modifier un reservation",
-            "form_reservation" => $form->createView(),
+        return $this->render('reservation/addreservation.html.twig', [
+            'formreservation' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/reservation/{id}/editreservation", name="edit")
+     */
+    public function edit(Request $request,ReservationRepository $repo,$id): Response
+    {
+        $reservation = $repo->find($id);
+        $form = $this->createForm(VehiculeType::class,$reservation);
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($reservation);
+            $em->flush();
+            $this->addFlash('success', 'Edit avec sucess!');
+            return $this->redirectToRoute('reservation');
+        }
+        return $this->render('reservation/addreservation.html.twig', [
+            'formreservation' => $form->createView(),
+
         ]);
     }
 
 
-    /**
-     * @Route("/supprimer-reservation/{id}", name="supprimer_reservation")
-     */
-    public function supprimerReservation(int $id): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $reservation = $entityManager->getRepository(Reservation::class)->find($id);
-        $entityManager->remove($reservationsssssss);
-        $entityManager->flush();
 
-        return $this->redirectToRoute("reservations");
-    }
-
-    /**
-     * @Route("/reservations", name="reservations")
-     */
-    public function resesrvations()
-    {
-        $reservations = $this->getDoctrine()->getRepository(Reservation::class)->findAll();
-
-        return $this->render('reservation/reservations.html.twig', [
-            "reservations" => $reservations,
-        ]);
-    }
 }
