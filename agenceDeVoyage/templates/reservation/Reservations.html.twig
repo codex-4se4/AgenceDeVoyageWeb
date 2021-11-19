@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Admin. | {{ parent() }}{% endblock %}
+
+{% block body %}
+
+    <div class="table_section padding_infor_info">
+        <div class="table-responsive-sm">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>objet</th>
+                    <th>contratdebut</th>
+                    <th>contratfin</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set i = 1 %}
+                {% for reservation in reservation%}
+                    {% set imgPath = imagepath ~ reservation.photo %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ utilisateur.nom }}</td>
+                        <td>{{ utilisateur.prenom }}</td>
+                        <td>{{ Objet.objet }}</td>
+                        <td>{{ Reservation.contratdebut }}</td>
+                        <td>{{ Resrvation.contrarfin }}</td>
+                        <td><img width="25px" height="25px" src="{{ asset(imgPath) }}" /></td>
+                        <td>{{ reservation.Objet }}</td>
+                        <td>
+                            <a href="{{ path('modifier_reservation', {'id': reservation.id}) }}"><i
+                                        class="fa fa-pencil blue2_color"></i></a>
+                            <a href="{{ path('supprimer_reservation', {'id': reservation.id}) }}">
+                                <i class="fa fa-trash red_color"></i></a>
+                        </td>
+                    </tr>
+                    {% set i = i+1 %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

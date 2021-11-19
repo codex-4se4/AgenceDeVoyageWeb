@@ -2,16 +2,19 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @Vich\Uploadable
  * @UniqueEntity(fields={"login"}, message="There is already an account with this login")
  */
-class Utilisateur implements UserInterface
+class Utilisateur implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -22,50 +25,119 @@ class Utilisateur implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre nom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le nom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre prénom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le prénom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le prénom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre email.")
+     * @Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=8)
+     * @Assert\NotBlank(message="Veuillez saisir votre cin.")
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      exactMessage = "Le cin doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $cin;
 
     /**
      * @ORM\Column(type="string", length=6)
+     * @Assert\NotBlank(message="Veuillez saisir votre passeport.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 6,
+     *      exactMessage = "Le passeport doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $passeport;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre login.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 180,
+     *      minMessage = "Le login doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le login doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $login;
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank(message="Veuillez saisir votre mot de passe.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 200,
+     *      minMessage = "Le mot de passe doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le mot de passe doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $mdp;
 
     /**
      * @ORM\Column(type="string", length=200, nullable=true)
+     * @var string
      */
     private $photo;
+
+    /**
+     * @Vich\UploadableField(mapping="utilisateur_images", fileNameProperty="photo")
+     * @var File
+     */
+    private $imageFile;
 
     /**
      * @ORM\ManyToOne(targetEntity=Role::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $role;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="Client")
+     */
+    private $reservation;
 
     public function getId(): ?int
     {
@@ -176,16 +248,33 @@ class Utilisateur implements UserInterface
         return $this->mdp;
     }
 
-    public function getPhoto(): ?string
+    public function getPhoto()
     {
         return $this->photo;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setPhoto($photo)
     {
         $this->photo = $photo;
+    }
 
-        return $this;
+
+    public function setImageFile($image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     public function getRole(): ?Role
@@ -225,4 +314,46 @@ class Utilisateur implements UserInterface
         return array((string)$this->getRole());
     }
 
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function serialize() {
+
+        return serialize(array(
+            $this->id,
+            $this->login,
+            $this->mdp,
+        ));
+
+    }
+
+    public function unserialize($serialized) {
+
+        list (
+            $this->id,
+            $this->login,
+            $this->mdp,
+            ) = unserialize($serialized);
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
 }

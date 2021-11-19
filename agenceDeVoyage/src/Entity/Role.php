@@ -13,7 +13,7 @@ class Role
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",options={"default"=2})
      */
     private $id;
 
