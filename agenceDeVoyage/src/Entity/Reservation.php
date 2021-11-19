@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +20,31 @@ class Reservation
     /**
      * @ORM\Column(type="string", length=255)
      */
+    private $title;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $idr;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $objet;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $discription;
+
+    /**
+     * @ORM\Column(type="date")
+     */
     private $contratdebut;
 
     /**
@@ -29,25 +52,69 @@ class Reservation
      */
     private $contratfin;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Utilisateur::class, mappedBy="reservation")
-     */
-    private $utilisateur;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Objet::class, inversedBy="reservation", cascade={"persist", "remove"})
-     */
-    private $objet;
-
-    public function __construct()
-    {
-        $this->Client = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
+    }
 
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function getIdr(): ?int
+    {
+        return $this->idr;
+    }
+
+    public function setIdr(int $idr): self
+    {
+        $this->idr = $idr;
+
+        return $this;
+    }
+
+    public function getObjet(): ?string
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(string $objet): self
+    {
+        $this->objet = $objet;
+
+        return $this;
+    }
+
+    public function getUser(): ?string
+    {
+        return $this->user;
+    }
+
+    public function setUser(string $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getDiscription(): ?string
+    {
+        return $this->discription;
+    }
+
+    public function setDiscription(?string $discription): self
+    {
+        $this->discription = $discription;
+
+        return $this;
     }
 
     public function getContratdebut(): ?\DateTimeInterface
@@ -70,48 +137,6 @@ class Reservation
     public function setContratfin(\DateTimeInterface $contratfin): self
     {
         $this->contratfin = $contratfin;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Utilisateur[]
-     */
-    public function getClient(): Collection
-    {
-        return $this->Client;
-    }
-
-    public function addutilisateur(Utilisateur $utilisateur): self
-    {
-        if (!$this->utilisateur->contains($utilisateur)) {
-            $this->utilisateur[] = $utilisateur;
-            $utilisateur->setReservation($this);
-        }
-
-        return $this;
-    }
-
-    public function removeutilisateur(Utilisateur $client): self
-    {
-        if ($this->Client->removeElement($client)) {
-            // set the owning side to null (unless already changed)
-            if ($client->getReservation() === $this) {
-                $client->setReservation(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getObjet(): ?Objet
-    {
-        return $this->objet;
-    }
-
-    public function setObjet(?Objet $objet): self
-    {
-        $this->objet = $objet;
 
         return $this;
     }
