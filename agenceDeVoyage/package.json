@@ -20,6 +20,7 @@
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.4",
         "material-design-icons": "^3.0.1",
-        "materialize-css": "^1.0.0-rc.2"
+        "materialize-css": "^1.0.0-rc.2",
+        "run": "^1.4.0"
     }
 }
