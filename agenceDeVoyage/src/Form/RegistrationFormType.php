@@ -26,7 +26,8 @@ class RegistrationFormType extends AbstractType
             ->add('cin',TextType::class)
             ->add('passeport',TextType::class)
             ->add('login',TextType::class)
-            ->add('mdp', PasswordType::class);
+            ->add('mdp', PasswordType::class)
+            ->add('imageFile',VichImageType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
