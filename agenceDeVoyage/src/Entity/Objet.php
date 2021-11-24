@@ -27,6 +27,12 @@ class Objet
      */
     private $reservation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="type")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $objet;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +68,18 @@ class Objet
         }
 
         $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getObjet(): ?Reservation
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(?Reservation $objet): self
+    {
+        $this->objet = $objet;
 
         return $this;
     }
