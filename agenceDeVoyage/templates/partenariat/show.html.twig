@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partenariat{% endblock %}
+
+{% block body %}
+    <h1>Partenariat</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ partenariat.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ partenariat.Nom }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ partenariat.Adresse }}</td>
+            </tr>
+            <tr>
+                <th>DateDebut</th>
+                <td>{{ partenariat.DateDebut ? partenariat.DateDebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DateFin</th>
+                <td>{{ partenariat.DateFin ? partenariat.DateFin|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('partenariat_index') }}">back to list</a>
+
+    <a href="{{ path('partenariat_edit', {'id': partenariat.id}) }}">edit</a>
+
+    {{ include('partenariat/_delete_form.html.twig') }}
+{% endblock %}
