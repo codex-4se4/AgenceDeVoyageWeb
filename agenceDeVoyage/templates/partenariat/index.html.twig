@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Partenariat index{% endblock %}
+
+{% block body %}
+    <h1>Tunisia Trip</h1>
+    <h2>Partenariat </h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Adresse</th>
+                <th>DateDebut</th>
+                <th>DateFin</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for partenariat in partenariats %}
+            <tr>
+                <td>{{ partenariat.id }}</td>
+                <td>{{ partenariat.Nom }}</td>
+                <td>{{ partenariat.Adresse }}</td>
+                <td>{{ partenariat.DateDebut ? partenariat.DateDebut|date('Y-m-d') : '' }}</td>
+                <td>{{ partenariat.DateFin ? partenariat.DateFin|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('partenariat_show', {'id': partenariat.id}) }}">show</a>
+                    <a href="{{ path('partenariat_edit', {'id': partenariat.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('partenariat_new') }}">Create new</a>
+{% endblock %}
