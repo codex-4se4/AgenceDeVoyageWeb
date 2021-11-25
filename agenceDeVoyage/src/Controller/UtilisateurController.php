@@ -2,12 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Appartement;
+use App\Entity\Role;
 use App\Entity\Utilisateur;
+use App\Form\AppartementFormType;
+use App\Form\RegistrationFormType;
 use App\Form\UtilisateurFormType;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UtilisateurController extends AbstractController
 {
@@ -58,9 +65,49 @@ class UtilisateurController extends AbstractController
     }
 
     /**
+     * @Route("/ajouterUtilisateur", name="ajouter_utilisateur")
+     */
+    public function ajouterUtilisateur(Request $request, UserPasswordEncoderInterface $userPasswordEncoderInterface): Response
+    {
+        $user = new Utilisateur();
+        $form = $this->createForm(UtilisateurFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setMdp(
+                $userPasswordEncoderInterface->encodePassword(
+                    $user,
+                    $form->get('mdp')->getData()
+                )
+            );
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $role = $entityManager->getRepository(Role::class)->find(2);
+            $user->setRole($role);
+            $user->setPhoto("6193a3f279855311457432.jpeg");
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('dashboard_admin');
+        }
+
+        $currentUser = $this->getDoctrine()->getRepository(Utilisateur::class)->findOneBy(array('login' => $this->getUser()->getUsername()));
+        return $this->render("utilisateur/utilisateur-form.html.twig", [
+            "form_title" => "Ajouter un utilisateur",
+            "form_utilisateur" => $form->createView(),
+            "current_user" => $currentUser,
+        ]);
+
+    }
+
+    /**
      * @Route("/modifier-utilisateur/{id}", name="modifier_utilisateur")
      */
-    public function modifierUtilisateur(Request $request, int $id): Response
+    public
+    function modifierUtilisateur(Request $request, int $id,UserPasswordEncoderInterface $userPasswordEncoderInterface): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -69,6 +116,12 @@ class UtilisateurController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur->setMdp(
+                $userPasswordEncoderInterface->encodePassword(
+                    $utilisateur,
+                    $form->get('mdp')->getData()
+                )
+            );
             $entityManager->flush();
             return $this->redirectToRoute("dashboard_admin");
         }
@@ -76,7 +129,7 @@ class UtilisateurController extends AbstractController
         return $this->render("utilisateur/utilisateur-form.html.twig", [
             "form_title" => "Modifier un utilisateur",
             "form_utilisateur" => $form->createView(),
-            "current_user" => $currentUser
+            "current_user" => $currentUser,
         ]);
     }
 
@@ -84,7 +137,8 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/supprimer-utilisateur/{id}", name="supprimer_utilisateur")
      */
-    public function supprimerUtilisateur(int $id): Response
+    public
+    function supprimerUtilisateur(int $id): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($id);
@@ -97,7 +151,8 @@ class UtilisateurController extends AbstractController
     /**
      * @Route("/utilisateurs", name="utilisateurs")
      */
-    public function utilisateurs()
+    public
+    function utilisateurs()
     {
         $utilisateurs = $this->getDoctrine()->getRepository(Utilisateur::class)->findAll();
 
