@@ -1,8 +1,0 @@
-<a href="{{ path('ajouterHebergement') }}">AJOUTER HEBERGEMENT</a><br>
-{%  for c in tabHebergement %}
-    id: {{ c.id }} / nbChambres: {{ c.nbChambres }}/nbPersonnes:{{ c.nbPersonnes }}/avecPiscine:{{ c.avecPiscine }}/avecParking:{{ c.avecParking }}/avecPlage:{{ c.avecPlage }}/adresse:{{ c.adresse }}
-    <a href="{{ path('ajouterHebergement',{"id":c.id}) }}">Ajouter</a>
-    <a href="{{ path('modifierHebergement',{"id":c.id}) }}">Modifer</a>
-    <a href="{{ path('supprimerHebergement',{"id":c.id}) }}">Supprimer</a>
-    <br>
-{% endfor %}

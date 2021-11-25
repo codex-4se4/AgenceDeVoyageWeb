@@ -63,7 +63,22 @@
                         <li class="active">
                             <a href="{{ path('app_login') }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
                         </li>
-                        <li><a href="widgets.html"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
+                        <li>
+                            <a href="{{ path('dashboard_admin')}}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
+                        <li>
+                            <a href="{{ path('hotels') }}"><i class="fa fa-bed red_color"></i> <span>Hôtels</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('maisons') }}"><i class="fa fa-home purple_color"></i> <span>Maisons</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('maisonsHote') }}"><i class="fa fa-university green_color2"></i> <span>Maisons d'hôte</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('appartements') }}"><i class="fa fa-building brown_color"></i> <span>Appartements</span></a>
+                        </li>
                         <li>
                             <a href="{{ path('weather') }}"><i class="fa fa-cloud rose_color"></i> <span>Météo</span></a>
                         </li>
@@ -84,7 +99,7 @@
                                         <li>
                                             <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset(imgPath) }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                                <a class="dropdown-item" href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}">Mon profil</a>
                                                 <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span> <i class="fa fa-sign-out"></i></a>
                                             </div>
                                         </li>
@@ -96,6 +111,69 @@
                 </div>
                 <!-- end topbar -->
                 <!-- dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title">
+                                    <h2>Météo</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row column1">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="full counter_section margin_bottom_30">
+                                    <div class="couter_icon">
+                                        <div>
+                                            <i><img class="img-responsive" src="{{ data.current.condition.icon }}"/></i>
+                                        </div>
+                                    </div>
+                                    <div class="counter_no">
+                                        <div>
+                                            <p class="total_no">{{ data.location.name }}</p>
+                                            <p class="head_couter">{{ data.current.temp_c ~ '°C' }}</p>
+                                            <p class="head_couter">{{ data.current.last_updated }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="full counter_section margin_bottom_30">
+                                    <div class="couter_icon">
+                                        <div>
+                                            <i><img class="img-responsive" src="{{ data.forecast.forecastday.1.day.condition.icon }}"/></i>
+                                        </div>
+                                    </div>
+                                    <div class="counter_no">
+                                        <div>
+                                            <p class="total_no">{{ data.location.name }}</p>
+                                            <p class="head_couter">{{ data.forecast.forecastday.1.day.mintemp_c ~ '°C' }}
+                                            - {{ data.forecast.forecastday.1.day.maxtemp_c ~ '°C' }}</p>
+                                            <p class="head_couter">{{ data.forecast.forecastday.1.date }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="full counter_section margin_bottom_30">
+                                    <div class="couter_icon">
+                                        <div>
+                                            <i><img class="img-responsive" src="{{ data.forecast.forecastday.2.day.condition.icon }}"/></i>
+                                        </div>
+                                    </div>
+                                    <div class="counter_no">
+                                        <div>
+                                            <p class="total_no">{{ data.location.name }}</p>
+                                            <p class="head_couter">{{ data.forecast.forecastday.2.day.mintemp_c ~ '°C' }}
+                                                - {{ data.forecast.forecastday.2.day.maxtemp_c ~ '°C' }}</p>
+                                            <p class="head_couter">{{ data.forecast.forecastday.2.date }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- end dashboard inner -->
             </div>
         </div>
@@ -134,3 +212,4 @@
     </body>
     </html>
 {% endblock %}
+

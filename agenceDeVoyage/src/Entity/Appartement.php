@@ -5,17 +5,12 @@ namespace App\Entity;
 use App\Repository\AppartementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass=AppartementRepository::class)
  */
 class Appartement extends Hebergement
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="integer")
@@ -26,11 +21,6 @@ class Appartement extends Hebergement
      * @ORM\Column(type="boolean")
      */
     private $avecAscenseur;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getNumeroEtage(): ?int
     {

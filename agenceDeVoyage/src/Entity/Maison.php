@@ -8,24 +8,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=MaisonRepository::class)
  */
-class Maison extends Hebergement
-{
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
+class Maison extends Hebergement {
 
     /**
      * @ORM\Column(type="float")
      */
     private $surfaceJardin;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getSurfaceJardin(): ?float
     {

@@ -4,9 +4,14 @@ namespace App\Entity;
 
 use App\Repository\HebergementRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\InheritanceType as InheritanceType;
 
 /**
  * @ORM\Entity(repositoryClass=HebergementRepository::class)
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({"hebergement" = "Hebergement", "appartement" = "Appartement", "maison" = "Maison",
+ *     "maisonHote" = "MaisonHote", "hotel" = "Hotel"})
  */
 class Hebergement
 {
@@ -43,7 +48,7 @@ class Hebergement
     private $avecPlage;
 
     /**
-     * @ORM\Column(type="string", length=200)
+     * @ORM\Column(type="string", length=255)
      */
     private $adresse;
 

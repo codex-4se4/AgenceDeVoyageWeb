@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UtilisateurController!{% endblock %}
+{% block title %}Hello MaisonHoteController!{% endblock %}
 
 {% block body %}
     <html lang="en">
@@ -16,6 +16,7 @@
         <meta name="keywords" content="">
         <meta name="description" content="">
         <meta name="author" content="">
+        <!-- site icon -->
         {% block stylesheets %}
 
             <link rel="icon" href="{{ asset('build/images/fevicon.png') }}" type="image/png"/>
@@ -36,8 +37,9 @@
             <!-- custom css -->
             <link rel="stylesheet" href="{{ asset('build/css/custom.css') }}"/>
         {% endblock %}
+
     </head>
-<body class="dashboard dashboard_1">
+    <body class="dashboard dashboard_1">
     <div class="full_container">
         <div class="inner_container">
             <!-- Sidebar  -->
@@ -47,9 +49,7 @@
                         <div class="icon_setting"></div>
                         <div class="user_profle_side">
                             {% set imgPath = imagepath ~ current_user.photo %}
-                            <div class="user_img"><img class="img-responsive"
-                                                       src="{{ asset(imgPath) }}"
-                                                       alt="#"/></div>
+                            <div class="user_img"><img class="img-responsive" src="{{ asset(imgPath) }}" alt="#"/></div>
                             <div class="user_info">
                                 <h6>{{ current_user.prenom }} {{ current_user.nom }}</h6>
                                 <p><span class="online_animation"></span> Online</p>
@@ -79,6 +79,9 @@
                         <li>
                             <a href="{{ path('appartements') }}"><i class="fa fa-building brown_color"></i> <span>Appartements</span></a>
                         </li>
+                        <li>
+                            <a href="{{ path('weather') }}"><i class="fa fa-cloud rose_color"></i> <span>Météo</span></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -96,14 +99,13 @@
                                     <ul class="user_profile_dd">
                                         <li>
                                             <a class="dropdown-toggle" data-toggle="dropdown"><img
-                                                        class="img-responsive rounded-circle"
-                                                        src="{{ asset(imgPath) }}"
+                                                        class="img-responsive rounded-circle" src="{{ asset(imgPath) }}"
                                                         alt="#"/><span
                                                         class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="profile.html">My Profile</a>
-                                                <a class="dropdown-item" href="#"><span>Log Out</span> <i
-                                                            class="fa fa-sign-out"></i></a>
+                                                <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span>
+                                                    <i class="fa fa-sign-out"></i></a>
                                             </div>
                                         </li>
                                     </ul>
@@ -119,61 +121,95 @@
                         <div class="row column_title">
                             <div class="col-md-12">
                                 <div class="page_title">
-                                    <h2>Utilisateurs</h2>
+                                    <h2>Maisons d'hôte</h2>
                                 </div>
                             </div>
                         </div>
-                        <div class="row column1">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-8">
-                                <div class="white_shd full margin_bottom_30">
-                                    <div class="full graph_head">
-                                        <div class="heading1 margin_0">
-                                            <h2>Modifier profil</h2>
-                                        </div>
-                                    </div>
-                                    <div class="full price_table padding_infor_info">
-                                        <div class="row">
-                                            {{ form(form_utilisateur) }}
-                                        </div>
-                                    </div>
-                                </div>
+                        <a href="{{ path('ajouter_maison_hote') }}"><i
+                                    class="fa fa-plus green_color"></i> Ajouter une maison d'hôte</a>
+                        <div class="table_section padding_infor_info">
+                            <div class="table-responsive-sm">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>nombre chambres</th>
+                                        <th>nombre personnes</th>
+                                        <th>Piscine</th>
+                                        <th>Parking</th>
+                                        <th>Plage</th>
+                                        <th>Adresse</th>
+                                        <th>Petit déjeuner inclus</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set i = 1 %}
+                                    {% for maisonHote in maisonsHote %}
+                                        <tr>
+                                            <td>{{ i }}</td>
+                                            <td>{{ maisonHote.nbChambres }}</td>
+                                            <td>{{ maisonHote.nbPersonnes }}</td>
+                                            <td>{{ maisonHote.avecPiscine }}</td>
+                                            <td>{{ maisonHote.avecParking }}</td>
+                                            <td>{{ maisonHote.avecPlage }}</td>
+                                            <td>{{ maisonHote.adresse }}</td>
+                                            <td>{{ maisonHote.avecPetitDejInclus }}</td>
+                                            <td>
+                                                <a href="{{ path('modifier_maison_hote', {'id': maisonHote.id}) }}"><i
+                                                            class="fa fa-pencil blue2_color"></i></a>
+                                                <a href="{{ path('supprimer_maison_hote', {'id': maisonHote.id}) }}">
+                                                    <i class="fa fa-trash red_color"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% set i = i+1 %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- end dashboard inner -->
             </div>
         </div>
     </div>
-{% block scripts %}
+    {% block scripts %}
 
-    <!-- jQuery -->
-    <script src="{{ asset('build/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('build/js/popper.min.js') }}"></script>
-    <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
-    <!-- wow animation -->
-    <script src="{{ asset('build/js/animate.js') }}"></script>
-    <!-- select country -->
-    <script src="{{ asset('build/js/bootstrap-select.js') }}"></script>
-    <!-- owl carousel -->
-    <script src="{{ asset('build/js/owl.carousel.js') }}"></script>
-    <!-- chart js -->
-    <script src="{{ asset('build/js/Chart.min.js') }}"></script>
-    <script src="{{ asset('build/js/Chart.bundle.min.js') }}"></script>
-    <script src="{{ asset('build/js/utils.js') }}"></script>
-    <script src="{{ asset('build/js/analyser.js') }}"></script>
-    <!-- nice scrollbar -->
-    <script src="{{ asset('build/js/perfect-scrollbar.min.js') }}"></script>
-    <script>
-        var ps = new PerfectScrollbar('#sidebar');
-    </script>
-    <!-- custom js -->
-    <script src="{{ asset('build/js/chart_custom_style1.js') }}"></script>
-    <script src="{{ asset('build/js/custom.js') }}"></script>
-    <!--[if lt IE 9]>
+        <!-- jQuery -->
+        <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('build/js/popper.min.js') }}"></script>
+        <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+        <!-- wow animation -->
+        <script src="{{ asset('build/js/animate.js') }}"></script>
+        <!-- select country -->
+        <script src="{{ asset('build/js/bootstrap-select.js') }}"></script>
+        <!-- owl carousel -->
+        <script src="{{ asset('build/js/owl.carousel.js') }}"></script>
+        <!-- chart js -->
+        <script src="{{ asset('build/js/Chart.min.js') }}"></script>
+        <script src="{{ asset('build/js/Chart.bundle.min.js') }}"></script>
+        <script src="{{ asset('build/js/utils.js') }}"></script>
+        <script src="{{ asset('build/js/analyser.js') }}"></script>
+        <!-- nice scrollbar -->
+        <script src="{{ asset('build/js/perfect-scrollbar.min.js') }}"></script>
+        <script>
+            var ps = new PerfectScrollbar('#sidebar');
+        </script>
+        <!-- custom js -->
+        <script src="{{ asset('build/js/chart_custom_style1.js') }}"></script>
+        <script src="{{ asset('build/js/custom.js') }}"></script>
+        <!--[if lt IE 9]>
       <script src="{{ asset('https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js') }}"></script>
       <script src="{{ asset('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') }}"></script>
+      <![endif]-->
     {% endblock %}
+
     </body>
     </html>
 {% endblock %}
+
+
+
+
+

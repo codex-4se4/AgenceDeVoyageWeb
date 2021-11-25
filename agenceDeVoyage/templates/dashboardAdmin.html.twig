@@ -63,20 +63,24 @@
                   <li class="active">
                      <a href="{{ path('app_login') }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
                   </li>
-                  <li><a href="widgets.html"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
-                  <li>
-                     <a href="#element"><i class="fa fa-home purple_color"></i> <span>Hébergement</span></a>
-                  </li>
-                  <li>
-                     <a href="{{ path('circuits')}}"><i class="fa fa-plane green_color"></i>
-                        <span>Circuits touristiques</span></a>
-                  </li>
-                  <li><a href="tables.html"><i class="fa fa-car purple_color2"></i> <span>Voitures</span></a></li>
                   <li>
                      <a href="{{ path('dashboard_admin')}}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
                   </li>
+                  <li><a href="#"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
                   <li>
-                     <a href="price.html"><i class="fa fa-briefcase red_color"></i> <span>Partenariats</span></a>
+                     <a href="{{ path('hotels') }}"><i class="fa fa-bed red_color"></i> <span>Hôtels</span></a>
+                  </li>
+                  <li>
+                     <a href="{{ path('maisons') }}"><i class="fa fa-home purple_color"></i> <span>Maisons</span></a>
+                  </li>
+                  <li>
+                     <a href="{{ path('maisonsHote') }}"><i class="fa fa-university green_color2"></i> <span>Maisons d'hôte</span></a>
+                  </li>
+                  <li>
+                     <a href="{{ path('appartements') }}"><i class="fa fa-building brown_color"></i> <span>Appartements</span></a>
+                  </li>
+                  <li>
+                     <a href="{{ path('weather') }}"><i class="fa fa-cloud rose_color"></i> <span>Météo</span></a>
                   </li>
                </ul>
             </div>
@@ -95,7 +99,7 @@
                               <li>
                                  <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset(imgPath) }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="profile.html">My Profile</a>
+                                    <a class="dropdown-item" href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}">Mon profil</a>
                                     <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span> <i class="fa fa-sign-out"></i></a>
                                  </div>
                               </li>
