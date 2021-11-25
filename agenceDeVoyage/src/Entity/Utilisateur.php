@@ -32,10 +32,6 @@ class Utilisateur implements UserInterface, \Serializable
      *      minMessage = "Le nom doit contenir au minimum {{ limit }} caractères.",
      *      maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères."
      * )
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
-     * )
      */
     private $nom;
 
@@ -47,10 +43,6 @@ class Utilisateur implements UserInterface, \Serializable
      *      max = 50,
      *      minMessage = "Le prénom doit contenir au minimum {{ limit }} caractères.",
      *      maxMessage = "Le prénom doit contenir au maximum {{ limit }} caractères."
-     * )
-     * @Assert\Type(
-     *     type="string",
-     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
      * )
      */
     private $prenom;
@@ -133,6 +125,12 @@ class Utilisateur implements UserInterface, \Serializable
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="Client")
+     */
+
+    private $utilisateur;
 
     public function getId(): ?int
     {
@@ -339,4 +337,29 @@ class Utilisateur implements UserInterface, \Serializable
             $this->mdp,
             ) = unserialize($serialized);
     }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getUtilisateur(): ?Reservation
+    {
+        return $this->utilisateur;
+    }
+
+    public function setUtilisateur(?Reservation $utilisateur): self
+    {
+        $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
 }
+

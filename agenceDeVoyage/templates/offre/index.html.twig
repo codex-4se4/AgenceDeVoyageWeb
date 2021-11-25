@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offre index{% endblock %}
+
+{% block body %}
+    <h1>Tunisia Trip</h1>
+    <h1>Offre </h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>TypeOffre</th>
+                <th>Prix</th>
+                <th>DebutOffre</th>
+                <th>FinOffre</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for offre in offres %}
+            <tr>
+                <td>{{ offre.id }}</td>
+                <td>{{ offre.TypeOffre }}</td>
+                <td>{{ offre.prix }}</td>
+                <td>{{ offre.DebutOffre ? offre.DebutOffre|date('Y-m-d') : '' }}</td>
+                <td>{{ offre.FinOffre ? offre.FinOffre|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('offre_show', {'id': offre.id}) }}">show</a>
+                    <a href="{{ path('offre_edit', {'id': offre.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('offre_new') }}">Create new</a>
+{% endblock %}

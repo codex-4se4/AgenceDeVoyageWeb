@@ -22,6 +22,17 @@ class Objet
      */
     private $nom;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Reservation::class, mappedBy="objet", cascade={"persist", "remove"})
+     */
+    private $reservation;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Reservation::class, inversedBy="type")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $objet;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,6 +46,40 @@ class Objet
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getReservation(): ?Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(?Reservation $reservation): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($reservation === null && $this->reservation !== null) {
+            $this->reservation->setObjet(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($reservation !== null && $reservation->getObjet() !== $this) {
+            $reservation->setObjet($this);
+        }
+
+        $this->reservation = $reservation;
+
+        return $this;
+    }
+
+    public function getObjet(): ?Reservation
+    {
+        return $this->objet;
+    }
+
+    public function setObjet(?Reservation $objet): self
+    {
+        $this->objet = $objet;
 
         return $this;
     }

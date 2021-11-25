@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,24 +24,7 @@ class Reservation
      */
     private $title;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $idr;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $objet;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $user;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $discription;
 
     /**
@@ -52,6 +37,12 @@ class Reservation
      */
     private $contratfin;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="objet")
+     */
+    private $type;
+
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -65,42 +56,6 @@ class Reservation
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIdr(): ?int
-    {
-        return $this->idr;
-    }
-
-    public function setIdr(int $idr): self
-    {
-        $this->idr = $idr;
-
-        return $this;
-    }
-
-    public function getObjet(): ?string
-    {
-        return $this->objet;
-    }
-
-    public function setObjet(string $objet): self
-    {
-        $this->objet = $objet;
-
-        return $this;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
@@ -137,6 +92,66 @@ class Reservation
     public function setContratfin(\DateTimeInterface $contratfin): self
     {
         $this->contratfin = $contratfin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Objet[]
+     */
+    public function getType(): Collection
+    {
+        return $this->type;
+    }
+
+    public function addType(Objet $type): self
+    {
+        if (!$this->type->contains($type)) {
+            $this->type[] = $type;
+            $type->setObjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeType(Objet $type): self
+    {
+        if ($this->type->removeElement($type)) {
+            // set the owning side to null (unless already changed)
+            if ($type->getObjet() === $this) {
+                $type->setObjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Utilisateur[]
+     */
+    public function getClient(): Collection
+    {
+        return $this->client;
+    }
+
+    public function addClient(Utilisateur $client): self
+    {
+        if (!$this->client->contains($client)) {
+            $this->client[] = $client;
+            $client->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Utilisateur $client): self
+    {
+        if ($this->client->removeElement($client)) {
+            // set the owning side to null (unless already changed)
+            if ($client->getUtilisateur() === $this) {
+                $client->setUtilisateur(null);
+            }
+        }
 
         return $this;
     }
