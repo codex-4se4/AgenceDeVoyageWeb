@@ -46,42 +46,49 @@
                             <label for="nom" class="col-md-4 col-form-label text-md-right">Nom</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.nom) }}
+                                {{ form_errors(registrationForm.nom) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="prenom" class="col-md-4 col-form-label text-md-right">Prénom</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.prenom) }}
+                                {{ form_errors(registrationForm.prenom) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.email) }}
+                                {{ form_errors(registrationForm.email) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="cin" class="col-md-4 col-form-label text-md-right">CIN</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.cin) }}
+                                {{ form_errors(registrationForm.cin) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="passeport" class="col-md-4 col-form-label text-md-right">Passeport</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.passeport) }}
+                                {{ form_errors(registrationForm.passeport) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="login" class="col-md-4 col-form-label text-md-right">Login</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.login) }}
+                                {{ form_errors(registrationForm.login) }}
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="mdp" class="col-md-4 col-form-label text-md-right">Mot de passe</label>
                             <div class="col-md-6">
                                 {{ form_widget(registrationForm.mdp) }}
+                                {{ form_errors(registrationForm.mdp) }}
                             </div>
                         </div>
 
