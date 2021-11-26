@@ -1,0 +1,217 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppartementController!{% endblock %}
+
+{% block body %}
+    <html lang="en">
+    <head>
+        <!-- basic -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- mobile metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+        <!-- site metas -->
+        <title>Pluto - Responsive Bootstrap Admin Panel Templates</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!-- site icon -->
+        {% block stylesheets %}
+
+            <link rel="icon" href="{{ asset('build/images/fevicon.png') }}" type="image/png"/>
+            <!-- bootstrap css -->
+            <link rel="stylesheet" href="{{ asset('build/css/bootstrap.min.css') }}"/>
+            <!-- site css -->
+            <link rel="stylesheet" href="{{ asset('build/css/style.css') }}"/>
+
+            <link rel="stylesheet" href="{{ asset('build/css/font-awesome.css') }}"/>
+            <!-- responsive css -->
+            <link rel="stylesheet" href="{{ asset('build/css/responsive.css') }}"/>
+            <!-- color css -->
+            <link rel="stylesheet" href="{{ asset('build/css/colors.css') }}"/>
+            <!-- select bootstrap -->
+            <link rel="stylesheet" href="{{ asset('build/css/bootstrap-select.css') }}"/>
+            <!-- scrollbar css -->
+            <link rel="stylesheet" href="{{ asset('build/css/perfect-scrollbar.css') }}"/>
+            <!-- custom css -->
+            <link rel="stylesheet" href="{{ asset('build/css/custom.css') }}"/>
+        {% endblock %}
+
+    </head>
+    <body class="dashboard dashboard_1">
+    <div class="full_container">
+        <div class="inner_container">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar_blog_1">
+                    <div class="sidebar_user_info">
+                        <div class="icon_setting"></div>
+                        <div class="user_profle_side">
+                            {% set imgPath = imagepath ~ current_user.photo %}
+                            <div class="user_img"><img class="img-responsive" src="{{ asset(imgPath) }}" alt="#"/></div>
+                            <div class="user_info">
+                                <h6>{{ current_user.prenom }} {{ current_user.nom }}</h6>
+                                <p><span class="online_animation"></span> Online</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar_blog_2">
+                    <h4>General</h4>
+                    <ul class="list-unstyled components">
+                        <li class="active">
+                            <a href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('dashboard_admin')}}"><i class="fa fa-users blue2_color"></i> <span>Utilisateurs</span></a>
+                        </li>
+                        <li><a href="#"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
+                        <li>
+                            <a href="{{ path('hotels') }}"><i class="fa fa-bed red_color"></i> <span>Hôtels</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('maisons') }}"><i class="fa fa-home purple_color"></i> <span>Maisons</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('maisonsHote') }}"><i class="fa fa-university green_color2"></i> <span>Maisons d'hôte</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('appartements') }}"><i class="fa fa-building brown_color"></i> <span>Appartements</span></a>
+                        </li>
+                        <li>
+                            <a href="{{ path('weather') }}"><i class="fa fa-cloud rose_color"></i> <span>Météo</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- end sidebar -->
+            <!-- right content -->
+            <div id="content">
+                <!-- topbar -->
+                <div class="topbar">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <div class="full">
+                            <button type="button" id="sidebarCollapse" class="sidebar_toggle"><i class="fa fa-bars"></i>
+                            </button>
+                            <div class="right_topbar">
+                                <div class="icon_info">
+                                    <ul class="user_profile_dd">
+                                        <li>
+                                            <a class="dropdown-toggle" data-toggle="dropdown"><img
+                                                        class="img-responsive rounded-circle" src="{{ asset(imgPath) }}"
+                                                        alt="#"/><span
+                                                        class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}">Mon profil</a>
+                                                <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span>
+                                                    <i class="fa fa-sign-out"></i></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <!-- end topbar -->
+                <!-- dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title">
+                                    <h2>Appartements</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{{ path('ajouter_appartement')}}"><i
+                                    class="fa fa-plus green_color"></i> Ajouter un appartement</a>
+                        <div class="table_section padding_infor_info">
+                            <div class="table-responsive-sm">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>nombre chambres</th>
+                                        <th>nombre personnes</th>
+                                        <th>Piscine</th>
+                                        <th>Parking</th>
+                                        <th>Plage</th>
+                                        <th>Adresse</th>
+                                        <th>Numéro étage</th>
+                                        <th>Ascenseur</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% set i = 1 %}
+                                    {% for appartement in appartements %}
+                                        <tr>
+                                            <td>{{ i }}</td>
+                                            <td>{{ appartement.nbChambres }}</td>
+                                            <td>{{ appartement.nbPersonnes }}</td>
+                                            <td>{{ appartement.avecPiscine }}</td>
+                                            <td>{{ appartement.avecParking }}</td>
+                                            <td>{{ appartement.avecPlage }}</td>
+                                            <td>{{ appartement.adresse }}</td>
+                                            <td>{{ appartement.numeroEtage }}</td>
+                                            <td>{{ appartement.avecAscenseur }}</td>
+                                            <td>
+                                                <a href="{{ path('modifier_appartement', {'id': appartement.id}) }}"><i
+                                                            class="fa fa-pencil blue2_color"></i></a>
+                                                <a href="{{ path('supprimer_appartement', {'id': appartement.id}) }}">
+                                                    <i class="fa fa-trash red_color"></i></a>
+                                            </td>
+                                        </tr>
+                                        {% set i = i+1 %}
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end dashboard inner -->
+            </div>
+        </div>
+    </div>
+    {% block scripts %}
+
+        <!-- jQuery -->
+        <script src="{{ asset('build/js/jquery.min.js') }}"></script>
+        <script src="{{ asset('build/js/popper.min.js') }}"></script>
+        <script src="{{ asset('build/js/bootstrap.min.js') }}"></script>
+        <!-- wow animation -->
+        <script src="{{ asset('build/js/animate.js') }}"></script>
+        <!-- select country -->
+        <script src="{{ asset('build/js/bootstrap-select.js') }}"></script>
+        <!-- owl carousel -->
+        <script src="{{ asset('build/js/owl.carousel.js') }}"></script>
+        <!-- chart js -->
+        <script src="{{ asset('build/js/Chart.min.js') }}"></script>
+        <script src="{{ asset('build/js/Chart.bundle.min.js') }}"></script>
+        <script src="{{ asset('build/js/utils.js') }}"></script>
+        <script src="{{ asset('build/js/analyser.js') }}"></script>
+        <!-- nice scrollbar -->
+        <script src="{{ asset('build/js/perfect-scrollbar.min.js') }}"></script>
+        <script>
+            var ps = new PerfectScrollbar('#sidebar');
+        </script>
+        <!-- custom js -->
+        <script src="{{ asset('build/js/chart_custom_style1.js') }}"></script>
+        <script src="{{ asset('build/js/custom.js') }}"></script>
+        <!--[if lt IE 9]>
+      <script src="{{ asset('https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js') }}"></script>
+      <script src="{{ asset('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') }}"></script>
+      <![endif]-->
+    {% endblock %}
+
+    </body>
+    </html>
+{% endblock %}
+
+
+
+
+
