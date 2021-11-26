@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppartementController!{% endblock %}
+
+{% block body %}
+    {% set i = 1 %}
+    {% for appartement in appartements %}
+        <tr>
+            <td>{{ i }}</td>
+            <td>{{ appartement.nbChambres }}</td>
+            <td>{{ appartement.nbPersonnes }}</td>
+            <td>{{ appartement.avecPiscine }}</td>
+            <td>{{ appartement.avecParking }}</td>
+            <td>{{ appartement.avecPlage }}</td>
+            <td>{{ appartement.adresse }}</td>
+            <td>{{ appartement.numeroEtage }}</td>
+            <td>{{ appartement.avecAscenseur }}</td>
+        </tr>
+        {% set i = i+1 %}
+    {% endfor %}
+{% endblock %}
