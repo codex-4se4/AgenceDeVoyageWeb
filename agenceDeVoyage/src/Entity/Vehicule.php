@@ -3,9 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Vehicule
@@ -28,12 +25,6 @@ class Vehicule
      * @var string
      *
      * @ORM\Column(name="constructeur", type="string", length=100, nullable=false)
-     * @Assert\Regex(
-     *     pattern     = "/^[a-z]+$/i",
-     *     htmlPattern = "^[a-zA-Z]+$",
-     *     message="{{ value }} must be String "
-     * )
-     * @Assert\NotBlank(message="Must be filled")
      */
     private $constructeur;
 
@@ -41,12 +32,6 @@ class Vehicule
      * @var string
      *
      * @ORM\Column(name="marque", type="string", length=100, nullable=false)
-     * @Assert\Regex(
-     *     pattern     = "/^[a-z]+$/i",
-     *     htmlPattern = "^[a-zA-Z]+$",
-     *     message="{{ value }} must be String "
-     * )
-     * @Assert\NotBlank(message="Must be filled")
      */
     private $marque;
 
@@ -54,13 +39,6 @@ class Vehicule
      * @var int
      *
      * @ORM\Column(name="etat", type="integer", nullable=false)
-     * @Assert\Positive(message="Must Be upper than 0")
-     * @Assert\NotBlank(message="Must be filled")
-     * @Assert\Regex(
-     *     pattern     = "/^[0-9]*$/",
-     *     htmlPattern = "^[0-9]*$",
-     *      message="{{ value }} must be a Number"
-     * )
      */
     private $etat;
 
