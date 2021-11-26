@@ -61,9 +61,12 @@
                     <h4>General</h4>
                     <ul class="list-unstyled components">
                         <li class="active">
-                            <a href="{{ path('app_login') }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
+                            <a href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}"><i class="fa fa-user yellow_color"></i> <span>Profil</span></a>
                         </li>
                         <li><a href="widgets.html"><i class="fa fa-clock-o orange_color"></i> <span>Réservation</span></a></li>
+                        <li>
+                            <a href="{{ path('weather') }}"><i class="fa fa-cloud rose_color"></i> <span>Météo</span></a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -81,7 +84,7 @@
                                         <li>
                                             <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="{{ asset(imgPath) }}" alt="#" /><span class="name_user">{{ current_user.prenom }} {{ current_user.nom }}</span></a>
                                             <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="profile.html">My Profile</a>
+                                                <a class="dropdown-item" href="{{ path('modifier_utilisateur', {'id': current_user.id}) }}">Mon profil</a>
                                                 <a class="dropdown-item" href="{{ path('app_logout') }}"><span>Se déconnecter</span> <i class="fa fa-sign-out"></i></a>
                                             </div>
                                         </li>
