@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
 
 /**
  * Parking
@@ -25,41 +23,31 @@ class Parking
 
     /**
      * @var \DateTime
-     * @Assert\Date
-     * @Assert\NotBlank(message="Must be filled")
-     *  @Assert\GreaterThan("yesterday",
-     *     message="must be greater than today")
+     *
      * @ORM\Column(name="date_sortie", type="date", nullable=false)
      */
     private $dateSortie;
 
     /**
      * @var int
+     *
      * @ORM\Column(name="id_voiture", type="integer", nullable=false)
      */
     private $idVoiture;
 
     /**
      * @var int
-     * @Assert\Positive(message="Must Be upper than 0")
-     * @Assert\NotBlank(message="Must be filled")
+     *
      * @ORM\Column(name="num_place", type="integer", nullable=false)
      */
     private $numPlace;
 
     /**
      * @var \DateTime
-     * @Assert\Date
-     * @Assert\Expression(
-     *     "this.getDateSortie() < this.getDatePrevuRetour()",
-     *     message="date retour must be greater than date sortie"
-     * )
-     * @Assert\NotBlank(message="Must be filled")
+     *
      * @ORM\Column(name="date_prevu_retour", type="date", nullable=false)
      */
     private $datePrevuRetour;
-
-
 
     public function getId(): ?int
     {
@@ -113,10 +101,6 @@ class Parking
 
         return $this;
     }
-
-
-
-
 
 
 }
