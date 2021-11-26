@@ -2,50 +2,43 @@
 
 namespace App\Entity;
 
-use App\Repository\CircuitRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=CircuitRepository::class)
+ * Circuit
+ *
+ * @ORM\Table(name="circuit")
+ * @ORM\Entity
  */
 class Circuit
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Veuillez saisir une description.")
-     * @Assert\Length(
-     *      min = 20,
-     *      max = 255,
-     *      minMessage = "La description doit contenir au minimum {{ limit }} caractères.",
-     *      maxMessage = "La description doit contenir au maximum {{ limit }} caractères."
-     * )
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=255, nullable=false)
      */
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=80)
-     * @Assert\NotBlank(message="Veuillez saisir un titre.")
-     * @Assert\Length(
-     *      min = 10,
-     *      max = 80,
-     *      minMessage = "Le titre doit contenir au minimum {{ limit }} caractères.",
-     *      maxMessage = "Le titre doit contenir au maximum {{ limit }} caractères."
-     * )
+     * @var string
+     *
+     * @ORM\Column(name="titre", type="string", length=80, nullable=false)
      */
     private $titre;
 
     /**
-     * @ORM\Column(type="float")
-     * @Assert\NotBlank(message="Veuillez saisir un prix.")
-     * @Assert\Positive(message="Le prix doit être positif.")
+     * @var float
+     *
+     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
      */
     private $prix;
 
@@ -89,4 +82,6 @@ class Circuit
 
         return $this;
     }
+
+
 }
