@@ -87,6 +87,14 @@ class Utilisateur
      */
     private $role;
 
+<<<<<<< HEAD
+=======
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isVerified = false;
+
+>>>>>>> 9bd19c3173334a0557c7dbcebbabfc78d8d0bb39
     public function getId(): ?int
     {
         return $this->id;
@@ -200,5 +208,63 @@ class Utilisateur
         return $this;
     }
 
+<<<<<<< HEAD
+=======
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getRoles()
+    {
+        return array((string)$this->getRole());
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): self
+    {
+        $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function serialize() {
+
+        return serialize(array(
+            $this->id,
+            $this->login,
+            $this->mdp,
+        ));
+
+    }
+
+    public function unserialize($serialized) {
+
+        list (
+            $this->id,
+            $this->login,
+            $this->mdp,
+            ) = unserialize($serialized);
+    }
+>>>>>>> 9bd19c3173334a0557c7dbcebbabfc78d8d0bb39
 
 }
