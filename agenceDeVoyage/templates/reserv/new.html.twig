@@ -1,0 +1,35 @@
+{% extends 'front.html.twig' %}
+
+{% block title %}New Reservation{% endblock %}
+
+
+{% block body %}
+    <div class="card-body">
+
+        <h4 class="card-title">Affecter Note</h4>
+        {{ form_start(form, {'attr': {'class': 'forms-sample'}}) }}
+
+        <div class="form-group">
+            <label for="exampleInputUsername1">Date Debut</label>
+            {{ form_widget(form.contratdebut, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.contratdebut) }}
+        </div>
+        <div class="form-group">
+            <label for="exampleInputUsername1">Date Fin</label>
+            {{ form_widget(form.contratfin, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.contratfin) }}
+        </div>
+
+
+        <div class="form-group">
+            <label for="exampleInputUsername1">Objet</label>
+            {{ form_widget(form.objet, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(form.objet) }}
+        </div>
+
+        <input type="submit" value="Enregistrer" class="btn btn-success"/>
+
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
