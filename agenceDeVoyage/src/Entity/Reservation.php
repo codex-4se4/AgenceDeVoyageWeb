@@ -2,72 +2,72 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * Reservation
+ *
+ * @ORM\Table(name="reservation", uniqueConstraints={@ORM\UniqueConstraint(name="objet_id", columns={"objet_id"})}, indexes={@ORM\Index(name="user_id", columns={"user_id"})})
+ * @ORM\Entity
  */
 class Reservation
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-
-
-    private $discription;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $contratdebut;
-
-    /**
-     * @ORM\Column(type="date")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="contratfin", type="date", nullable=false)
      */
     private $contratfin;
 
     /**
-     * @ORM\OneToMany(targetEntity=Objet::class, mappedBy="objet")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="contratdebut", type="date", nullable=false)
      */
-    private $type;
+    private $contratdebut;
 
-    
+    /**
+     * @var \Objet
+     *
+     * @ORM\ManyToOne(targetEntity="Objet")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="objet_id", referencedColumnName="id")
+     * })
+     */
+    private $objet;
+
+    /**
+     * @var \Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getContratfin(): ?\DateTimeInterface
     {
-        return $this->title;
+        return $this->contratfin;
     }
 
-    public function setTitle(string $title): self
+    public function setContratfin(\DateTimeInterface $contratfin): self
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getDiscription(): ?string
-    {
-        return $this->discription;
-    }
-
-    public function setDiscription(?string $discription): self
-    {
-        $this->discription = $discription;
+        $this->contratfin = $contratfin;
 
         return $this;
     }
@@ -84,75 +84,29 @@ class Reservation
         return $this;
     }
 
-    public function getContratfin(): ?\DateTimeInterface
+    public function getObjet(): ?Objet
     {
-        return $this->contratfin;
+        return $this->objet;
     }
 
-    public function setContratfin(\DateTimeInterface $contratfin): self
+    public function setObjet(?Objet $objet): self
     {
-        $this->contratfin = $contratfin;
+        $this->objet = $objet;
 
         return $this;
     }
 
-    /**
-     * @return Collection|Objet[]
-     */
-    public function getType(): Collection
+    public function getUser(): ?Utilisateur
     {
-        return $this->type;
+        return $this->user;
     }
 
-    public function addType(Objet $type): self
+    public function setUser(?Utilisateur $user): self
     {
-        if (!$this->type->contains($type)) {
-            $this->type[] = $type;
-            $type->setObjet($this);
-        }
+        $this->user = $user;
 
         return $this;
     }
 
-    public function removeType(Objet $type): self
-    {
-        if ($this->type->removeElement($type)) {
-            // set the owning side to null (unless already changed)
-            if ($type->getObjet() === $this) {
-                $type->setObjet(null);
-            }
-        }
 
-        return $this;
-    }
-
-    /**
-     * @return Collection|Utilisateur[]
-     */
-    public function getClient(): Collection
-    {
-        return $this->client;
-    }
-
-    public function addClient(Utilisateur $client): self
-    {
-        if (!$this->client->contains($client)) {
-            $this->client[] = $client;
-            $client->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(Utilisateur $client): self
-    {
-        if ($this->client->removeElement($client)) {
-            // set the owning side to null (unless already changed)
-            if ($client->getUtilisateur() === $this) {
-                $client->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
 }
