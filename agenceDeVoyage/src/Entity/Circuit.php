@@ -2,61 +2,41 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Repository\CircuitRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Circuit
- *
- * @ORM\Table(name="circuit")
- * @ORM\Entity
+ * @ApiResource()
+ * @ORM\Entity(repositoryClass=CircuitRepository::class)
  */
 class Circuit
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
-    private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=80, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $titre;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="prix", type="float", precision=10, scale=0, nullable=false)
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="float")
      */
     private $prix;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
     }
 
     public function getTitre(): ?string
@@ -67,6 +47,18 @@ class Circuit
     public function setTitre(string $titre): self
     {
         $this->titre = $titre;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -82,6 +74,4 @@ class Circuit
 
         return $this;
     }
-
-
 }
