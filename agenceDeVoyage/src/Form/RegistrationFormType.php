@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Utilisateur;
+use Karser\Recaptcha3Bundle\Form\Recaptcha3Type;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -26,7 +28,9 @@ class RegistrationFormType extends AbstractType
             ->add('cin',TextType::class)
             ->add('passeport',TextType::class)
             ->add('login',TextType::class)
-            ->add('mdp', PasswordType::class);
+            ->add('mdp', PasswordType::class)
+            ->add('captcha', Recaptcha3Type::class);
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

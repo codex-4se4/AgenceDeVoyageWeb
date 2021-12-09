@@ -2,99 +2,138 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Utilisateur
- *
- * @ORM\Table(name="utilisateur", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_1D1C63B3AA08CB10", columns={"login"}), @ORM\UniqueConstraint(name="UNIQ_1D1C63B3E7927C74", columns={"email"})}, indexes={@ORM\Index(name="IDX_1D1C63B3D60322AC", columns={"role_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
+ * @Vich\Uploadable
+ * @UniqueEntity(fields={"login"}, message="There is already an account with this login")
  */
-class Utilisateur
+class Utilisateur implements UserInterface, \Serializable
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre nom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le nom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le nom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $nom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="Veuillez saisir votre prénom.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 50,
+     *      minMessage = "Le prénom doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le prénom doit contenir au maximum {{ limit }} caractères."
+     * )
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur {{ value }} n'est pas un {{ type }} valide."
+     * )
      */
     private $prenom;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre email.")
+     * @Assert\Email(
+     *     message = "Le mail '{{ value }}' n'est pas valide."
+     * )
      */
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="cin", type="string", length=8, nullable=false)
+     * @ORM\Column(type="string", length=8)
+     * @Assert\NotBlank(message="Veuillez saisir votre cin.")
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 8,
+     *      exactMessage = "Le cin doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $cin;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="passeport", type="string", length=6, nullable=false)
+     * @ORM\Column(type="string", length=6)
+     * @Assert\NotBlank(message="Veuillez saisir votre passeport.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 6,
+     *      exactMessage = "Le passeport doit contenir exactement {{ limit }} caractères."
+     * )
      */
     private $passeport;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="login", type="string", length=180, nullable=false)
+     * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Veuillez saisir votre login.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 180,
+     *      minMessage = "Le login doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le login doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $login;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mdp", type="string", length=200, nullable=false)
+     * @var string The hashed password
+     * @ORM\Column(type="string", length=200)
+     * @Assert\NotBlank(message="Veuillez saisir votre mot de passe.")
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 200,
+     *      minMessage = "Le mot de passe doit contenir au minimum {{ limit }} caractères.",
+     *      maxMessage = "Le mot de passe doit contenir au maximum {{ limit }} caractères."
+     * )
      */
     private $mdp;
 
     /**
-     * @var string|null
-     *
-     * @ORM\Column(name="photo", type="string", length=200, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @var string
      */
     private $photo;
 
     /**
-     * @var \Role
-     *
-     * @ORM\ManyToOne(targetEntity="Role")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id")
-     * })
+     * @Vich\UploadableField(mapping="utilisateur_images", fileNameProperty="photo")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Role::class)
+     * @ORM\JoinColumn(nullable=false)
      */
     private $role;
 
-<<<<<<< HEAD
-=======
     /**
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
 
->>>>>>> 9bd19c3173334a0557c7dbcebbabfc78d8d0bb39
     public function getId(): ?int
     {
         return $this->id;
@@ -160,6 +199,7 @@ class Utilisateur
         return $this;
     }
 
+
     public function getLogin(): ?string
     {
         return $this->login;
@@ -184,16 +224,52 @@ class Utilisateur
         return $this;
     }
 
-    public function getPhoto(): ?string
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string)$this->login;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->mdp;
+    }
+
+    public function getPhoto()
     {
         return $this->photo;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setPhoto($photo)
     {
         $this->photo = $photo;
+    }
 
-        return $this;
+
+    public function setImageFile($image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
     }
 
     public function getRole(): ?Role
@@ -208,8 +284,6 @@ class Utilisateur
         return $this;
     }
 
-<<<<<<< HEAD
-=======
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
@@ -265,6 +339,5 @@ class Utilisateur
             $this->mdp,
             ) = unserialize($serialized);
     }
->>>>>>> 9bd19c3173334a0557c7dbcebbabfc78d8d0bb39
-
 }
+
