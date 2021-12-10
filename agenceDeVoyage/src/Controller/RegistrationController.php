@@ -48,7 +48,6 @@ class RegistrationController extends AbstractController
 
             $role = $entityManager->getRepository(Role::class)->find(2);
             $user->setRole($role);
-            $user->setPhoto("6193a3f279855311457432.jpeg");
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
