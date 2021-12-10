@@ -27,6 +27,8 @@ class UtilisateurFormType extends AbstractType
             ->add('passeport',TextType::class)
             ->add('login',TextType::class)
             ->add('mdp', PasswordType::class)
+            ->add('imageFile',VichImageType::class)
+            ->add('role')
             ->add('submit', SubmitType::class);
     }
 
