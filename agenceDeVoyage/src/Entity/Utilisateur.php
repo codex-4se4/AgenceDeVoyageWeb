@@ -2,68 +2,88 @@
 
 namespace App\Entity;
 
-use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=UtilisateurRepository::class)
- * @UniqueEntity(fields={"login"}, message="There is already an account with this login")
+ * Utilisateur
+ *
+ * @ORM\Table(name="utilisateur", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_1D1C63B3AA08CB10", columns={"login"}), @ORM\UniqueConstraint(name="UNIQ_1D1C63B3E7927C74", columns={"email"})}, indexes={@ORM\Index(name="IDX_1D1C63B3D60322AC", columns={"role_id"})})
+ * @ORM\Entity
  */
-class Utilisateur implements UserInterface
+class Utilisateur
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=50, nullable=false)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @var string
+     *
+     * @ORM\Column(name="prenom", type="string", length=50, nullable=false)
      */
     private $prenom;
 
     /**
-     * @ORM\Column(type="string", length=50, unique=true)
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=50, nullable=false)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=8)
+     * @var string
+     *
+     * @ORM\Column(name="cin", type="string", length=8, nullable=false)
      */
     private $cin;
 
     /**
-     * @ORM\Column(type="string", length=6)
+     * @var string
+     *
+     * @ORM\Column(name="passeport", type="string", length=6, nullable=false)
      */
     private $passeport;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @var string
+     *
+     * @ORM\Column(name="login", type="string", length=180, nullable=false)
      */
     private $login;
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string", length=200)
+     * @var string
+     *
+     * @ORM\Column(name="mdp", type="string", length=200, nullable=false)
      */
     private $mdp;
 
     /**
-     * @ORM\Column(type="string", length=200, nullable=true)
+     * @var string|null
+     *
+     * @ORM\Column(name="photo", type="string", length=200, nullable=true)
      */
     private $photo;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Role::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @var \Role
+     *
+     * @ORM\ManyToOne(targetEntity="Role")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id")
+     * })
      */
     private $role;
 
@@ -132,7 +152,6 @@ class Utilisateur implements UserInterface
         return $this;
     }
 
-
     public function getLogin(): ?string
     {
         return $this->login;
@@ -155,25 +174,6 @@ class Utilisateur implements UserInterface
         $this->mdp = $mdp;
 
         return $this;
-    }
-
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
-    {
-        return (string)$this->login;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->mdp;
     }
 
     public function getPhoto(): ?string
@@ -200,29 +200,5 @@ class Utilisateur implements UserInterface
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
-    public function getRoles()
-    {
-        return array((string)$this->getRole());
-    }
 
 }
