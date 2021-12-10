@@ -2,117 +2,72 @@
 
 namespace App\Entity;
 
-use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * Reservation
+ *
+ * @ORM\Table(name="reservation", indexes={@ORM\Index(name="contratdebut", columns={"contratdebut"}), @ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="contratfin", columns={"contratfin"}), @ORM\Index(name="objet_id", columns={"objet_id"})})
+ * @ORM\Entity
  */
 class Reservation
 {
     /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var \DateTime
+     *
+     * @ORM\Column(name="contratfin", type="date", nullable=false)
      */
-    private $title;
+    private $contratfin;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $idr;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $objet;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $user;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $discription;
-
-    /**
-     * @ORM\Column(type="date")
+     * @var \DateTime
+     *
+     * @ORM\Column(name="contratdebut", type="date", nullable=false)
      */
     private $contratdebut;
 
     /**
-     * @ORM\Column(type="date")
+     * @var \Objet
+     *
+     * @ORM\ManyToOne(targetEntity="Objet")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="objet_id", referencedColumnName="id")
+     * })
      */
-    private $contratfin;
+    private $objet;
+
+    /**
+     * @var \Utilisateur
+     *
+     * @ORM\ManyToOne(targetEntity="Utilisateur")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * })
+     */
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getContratfin(): ?\DateTimeInterface
     {
-        return $this->title;
+        return $this->contratfin;
     }
 
-    public function setTitle(string $title): self
+    public function setContratfin(\DateTimeInterface $contratfin): self
     {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getIdr(): ?int
-    {
-        return $this->idr;
-    }
-
-    public function setIdr(int $idr): self
-    {
-        $this->idr = $idr;
-
-        return $this;
-    }
-
-    public function getObjet(): ?string
-    {
-        return $this->objet;
-    }
-
-    public function setObjet(string $objet): self
-    {
-        $this->objet = $objet;
-
-        return $this;
-    }
-
-    public function getUser(): ?string
-    {
-        return $this->user;
-    }
-
-    public function setUser(string $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getDiscription(): ?string
-    {
-        return $this->discription;
-    }
-
-    public function setDiscription(?string $discription): self
-    {
-        $this->discription = $discription;
+        $this->contratfin = $contratfin;
 
         return $this;
     }
@@ -129,15 +84,29 @@ class Reservation
         return $this;
     }
 
-    public function getContratfin(): ?\DateTimeInterface
+    public function getObjet(): ?Objet
     {
-        return $this->contratfin;
+        return $this->objet;
     }
 
-    public function setContratfin(\DateTimeInterface $contratfin): self
+    public function setObjet(?Objet $objet): self
     {
-        $this->contratfin = $contratfin;
+        $this->objet = $objet;
 
         return $this;
     }
+
+    public function getUser(): ?Utilisateur
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Utilisateur $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
 }
