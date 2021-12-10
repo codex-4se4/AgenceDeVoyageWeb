@@ -1,0 +1,48 @@
+{% extends 'dashboardAdmin.html.twig' %}
+
+{% block title %}All Reclamation{% endblock %}
+
+{% block body %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#rech tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+
+    <input class="form-control" id="myInput" type="text" id="navbar-search-input" placeholder="Search now" aria-label="search" aria-describedby="search">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>User</th>
+            <th>Objet</th>
+            <th>Contratfin</th>
+            <th>Contratdebut</th>
+            <th>Id</th>
+
+        </tr>
+        </thead>
+        <tbody id="rech">
+        {% for reservation in reservations %}
+            <tr>
+                <td>{{ reservation.user.nom }}</td>
+                <td>{{ reservation.objet.nom }}</td>
+                <td>{{ reservation.contratfin ? reservation.contratfin|date('Y-m-d') : '' }}</td>
+                <td>{{ reservation.contratdebut ? reservation.contratdebut|date('Y-m-d') : '' }}</td>                <td>{{ reservation.id }}</td>
+
+
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
